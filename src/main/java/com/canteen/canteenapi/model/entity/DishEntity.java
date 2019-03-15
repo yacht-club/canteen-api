@@ -6,18 +6,23 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.Type;
 
-import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.UUID;
 
 @Entity
-@Table(name = "dish", schema = "canteen")
+@Table(name = "dishes", schema = "canteen")
 public class DishEntity {
 
     private Integer id;
     private UUID dishUid = UUID.randomUUID();
-    private Set<CanteenEntity> canteens = new HashSet<>();
+    private Integer canteenId;
     private DishCategory category;
     private String name;
     private Integer price;
@@ -43,7 +48,7 @@ public class DishEntity {
     }
 
     @Type(type = "pg-uuid")
-    @Column(name = "external_id", nullable = false)
+    @Column(name = "ext_id", nullable = false)
     public UUID getDishUid() {
         return dishUid;
     }
@@ -53,13 +58,13 @@ public class DishEntity {
         return this;
     }
 
-    @ManyToMany(mappedBy = "dishes")
-    public Set<CanteenEntity> getCanteens() {
-        return canteens;
+    public Integer getCanteenId() {
+        return canteenId;
     }
 
-    public DishEntity setCanteens(Set<CanteenEntity> canteens) {
-        this.canteens = canteens;
+    @Column(name = "canteen_id", nullable = false)
+    public DishEntity setCanteenId(Integer canteenId) {
+        this.canteenId = canteenId;
         return this;
     }
 
@@ -154,8 +159,7 @@ public class DishEntity {
                 .setFats(entity.fats)
                 .setCategory(entity.category)
                 .setCarbohydrates(entity.carbohydrates)
-                .setCalories(entity.calories)
-                .setCanteens(entity.canteens);
+                .setCalories(entity.calories);
     }
 
     @Override

@@ -1,34 +1,29 @@
 package com.canteen.canteenapi.model.response;
 
-import com.canteen.canteenapi.model.entity.DishEntity;
 import com.fasterxml.jackson.annotation.JsonGetter;
 
 import java.time.Instant;
-import java.util.Set;
 import java.util.UUID;
 
 public class CanteenInfo {
 
-    private UUID canteenUid = UUID.randomUUID();
+    private UUID canteenUid;
     private String name;
     private String location;
     private Instant workFromMillis;
     private Instant workTillMillis;
-    private Set<DishEntity> dishes;
 
     public CanteenInfo(
             UUID canteenUid,
             String name,
             String location,
             Instant workFromMillis,
-            Instant workTillMillis,
-            Set<DishEntity> dishes) {
+            Instant workTillMillis) {
         this.canteenUid = canteenUid;
         this.name = name;
         this.location = location;
         this.workFromMillis = workFromMillis;
         this.workTillMillis = workTillMillis;
-        this.dishes = dishes;
     }
 
     @JsonGetter("canteenUid")
@@ -54,10 +49,5 @@ public class CanteenInfo {
     @JsonGetter("workTillMillis")
     public Instant getWorkTillMillis() {
         return workTillMillis;
-    }
-
-    @JsonGetter("dishes")
-    public Set<DishEntity> getDishes() {
-        return dishes;
     }
 }

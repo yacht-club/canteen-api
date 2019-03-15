@@ -5,14 +5,17 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.Type;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "canteen", schema = "canteen")
+@Table(name = "canteens", schema = "canteen")
 public class CanteenEntity {
 
     private Integer id;
@@ -21,7 +24,6 @@ public class CanteenEntity {
     private String location;
     private Instant workFromMillis;
     private Instant workTillMillis;
-    private Set<DishEntity> dishes = new HashSet();
 
     public CanteenEntity() {
     }
@@ -39,7 +41,7 @@ public class CanteenEntity {
     }
 
     @Type(type = "pg-uuid")
-    @Column(name = "external_id", nullable = false)
+    @Column(name = "ext_id", nullable = false)
     public UUID getCanteenUid() {
         return canteenUid;
     }
@@ -89,25 +91,8 @@ public class CanteenEntity {
         return this;
     }
 
-    @ManyToMany(cascade = {CascadeType.ALL})
-    @JoinTable(
-            name = "canteen_dish",
-            joinColumns = {@JoinColumn(name = "canteen_id")},
-            inverseJoinColumns = {@JoinColumn(name = "dish_id")},
-            schema = "canteen"
-    )
-    public Set<DishEntity> getDishes() {
-        return dishes;
-    }
-
-    public CanteenEntity setDishes(Set<DishEntity> dishes) {
-        this.dishes = dishes;
-        return this;
-    }
-
     public CanteenEntity copy(CanteenEntity entity) {
         this.canteenUid = entity.getCanteenUid();
-        this.dishes = entity.getDishes();
         this.location = entity.getLocation();
         this.name = entity.getName();
         this.workFromMillis = entity.getWorkFromMillis();

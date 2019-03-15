@@ -3,14 +3,13 @@ package com.canteen.canteenapi.service;
 import com.canteen.canteenapi.model.request.AddCanteenRequest;
 import com.canteen.canteenapi.model.request.UpdateCanteenRequest;
 import com.canteen.canteenapi.model.response.CanteenInfo;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface CanteenService {
 
-    Page<CanteenInfo> getAllCanteens(Pageable pageable);
+    List<CanteenInfo> getAllCanteens();
 
     CanteenInfo getCanteen(UUID canteenUid);
 
@@ -19,5 +18,4 @@ public interface CanteenService {
     void updateCanteen(UpdateCanteenRequest request);
 
     void deleteCanteen(UUID canteenUid);
-
 }

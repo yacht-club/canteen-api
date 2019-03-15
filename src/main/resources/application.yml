@@ -1,0 +1,23 @@
+server:
+  address: 0.0.0.0
+  port: 8081
+  servlet.context-path: /canteen-api
+  error.whitelabel.enabled: false
+
+spring:
+  application:
+    name: canteen-api
+  mvc:
+    throw-exception-if-no-handler-found: false
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      naming.implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyHbmImpl
+      naming.physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: "jdbc:postgresql://ec2-107-22-162-8.compute-1.amazonaws.com:5432/de0el6b3kcoh9s?sslmode=require&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory"
+    username: djstrfjhyexhwu
+    password: "bedd536fee0b333f7c74cf118711418091c2d6c677be63986659ebd2f10987da"

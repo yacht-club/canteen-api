@@ -11,6 +11,7 @@ import com.canteen.canteenapi.repository.DishRepository;
 import com.canteen.canteenapi.service.DishService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -22,11 +23,11 @@ import java.util.stream.Collectors;
 
 @Service
 public class DishServiceImpl implements DishService {
-
     private final static Logger logger = LoggerFactory.getLogger(DishServiceImpl.class);
 
-    private DishRepository dishRepository;
+    private final DishRepository dishRepository;
 
+    @Autowired
     public DishServiceImpl(DishRepository dishRepository) {
         this.dishRepository = dishRepository;
     }
@@ -49,10 +50,12 @@ public class DishServiceImpl implements DishService {
 
     @Override
     public DishInfo getDish(UUID dishUid) {
-        return ModelConverter.convert(dishRepository.findByDishUid(dishUid).orElseThrow(() -> {
-            logger.info("Dish not found with uid: {}", dishUid);
-            return new DishNotFoundException("Dish not found with uid:" + dishUid);
-        }));
+        return dishRepository.findByDishUid(dishUid)
+                .map(ModelConverter::convert)
+                .orElseThrow(() -> {
+                    logger.warn("Dish not found with uid: {}", dishUid);
+                    return new DishNotFoundException("Dish not found with uid: " + dishUid);
+                });
     }
 
     @Override
@@ -62,12 +65,13 @@ public class DishServiceImpl implements DishService {
 
     @Override
     public void updateDish(UpdateDishRequest request) {
-        DishEntity entity = dishRepository.findByDishUid(request.getDishUid()).orElseThrow(() -> {
-            logger.info("Dish not found with uid: {}", request.getDishUid());
-            return new DishNotFoundException("Dish not found with uid:" + request.getDishUid());
-        });
+        DishEntity entity = dishRepository.findByDishUid(request.getDishUid())
+                .map(it -> it.copy(ModelConverter.convert(request)))
+                .orElseThrow(() -> {
+                    logger.warn("Dish not found with uid: {}", request.getDishUid());
+                    return new DishNotFoundException("Dish not found with uid: " + request.getDishUid());
+                });
 
-        entity.copy(ModelConverter.convert(request));
         dishRepository.save(entity);
     }
 

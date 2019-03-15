@@ -13,7 +13,6 @@ public class ModelConverter {
 
     public static CanteenEntity convert(AddCanteenRequest request) {
         return new CanteenEntity()
-                .setDishes(request.getDishes())
                 .setLocation(request.getLocation())
                 .setName(request.getName())
                 .setWorkFromMillis(request.getWorkFromMillis())
@@ -23,7 +22,6 @@ public class ModelConverter {
     public static CanteenEntity convert(UpdateCanteenRequest request) {
         return new CanteenEntity()
                 .setCanteenUid(request.getCanteenUid())
-                .setDishes(request.getDishes())
                 .setLocation(request.getLocation())
                 .setName(request.getName())
                 .setWorkFromMillis(request.getWorkFromMillis())
@@ -33,7 +31,6 @@ public class ModelConverter {
     public static DishEntity convert(AddDishRequest request) {
         return new DishEntity()
                 .setCalories(request.getCalories())
-                .setCanteens(request.getCanteens())
                 .setCarbohydrates(request.getCarbohydrates())
                 .setCategory(request.getCategory())
                 .setFats(request.getFats())
@@ -47,7 +44,6 @@ public class ModelConverter {
         return new DishEntity()
                 .setDishUid(request.getDishUid())
                 .setCalories(request.getCalories())
-                .setCanteens(request.getCanteens())
                 .setCarbohydrates(request.getCarbohydrates())
                 .setCategory(request.getCategory())
                 .setFats(request.getFats())
@@ -63,15 +59,12 @@ public class ModelConverter {
                 entity.getName(),
                 entity.getLocation(),
                 entity.getWorkFromMillis(),
-                entity.getWorkTillMillis(),
-                entity.getDishes()
-        );
+                entity.getWorkTillMillis());
     }
 
     public static DishInfo convert(DishEntity entity) {
         return new DishInfo(
                 entity.getDishUid(),
-                entity.getCanteens(),
                 entity.getCategory(),
                 entity.getName(),
                 entity.getPrice(),
@@ -79,7 +72,6 @@ public class ModelConverter {
                 entity.getCalories(),
                 entity.getProteins(),
                 entity.getFats(),
-                entity.getCarbohydrates()
-        );
+                entity.getCarbohydrates());
     }
 }

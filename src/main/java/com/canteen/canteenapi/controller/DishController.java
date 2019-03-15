@@ -15,52 +15,60 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "/api/dishes", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class DishController {
-
     private static final Logger logger = LoggerFactory.getLogger(DishController.class.getName());
 
-    private DishService dishService;
+    private final DishService dishService;
 
     @Autowired
     public DishController(DishService dishService) {
         this.dishService = dishService;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping("/categories")
+    public ResponseEntity<List<DishCategory>> getCategories() {
+        logger.debug("Getting all categories");
+
+        // TODO implement
+        return ResponseEntity.ok(new ArrayList<>());
+    }
+
+    @GetMapping("/categories/{category}")
+    public ResponseEntity<Page<DishInfo>> getAllDishesByCategory(@PathVariable DishCategory category, Pageable pageable) {
+        logger.debug("Getting all dishes for page: {} and page size: {} and category: {}",
+                pageable.getPageNumber(), pageable.getPageSize(), category);
+
+        return ResponseEntity.ok(dishService.getAllDishesByCategory(pageable, category));
+    }
+
+    @GetMapping
     public ResponseEntity<Page<DishInfo>> getAllDishes(Pageable pageable) {
         logger.debug("Getting all dishes for page: {} and page size: {} ", pageable.getPageNumber(), pageable.getPageSize());
 
         return ResponseEntity.ok(dishService.getAllDishes(pageable));
     }
 
-    @RequestMapping(path = "/category/{category}", method = RequestMethod.GET)
-    public ResponseEntity<Page<DishInfo>> getAllDishesByCategory(
-            @PathVariable DishCategory category,
-            Pageable pageable) {
-        logger.debug("Getting all dishes for page: {} and page size: {} and category: {}", pageable.getPageNumber(), pageable.getPageSize(), category);
-
-        return ResponseEntity.ok(dishService.getAllDishesByCategory(pageable, category));
-    }
-
-    @RequestMapping(path = "/{dishUid}", method = RequestMethod.GET)
+    @GetMapping("/{dishUid}")
     public ResponseEntity<DishInfo> getDish(@PathVariable UUID dishUid) {
         logger.debug("Getting dish with uid: {} ", dishUid);
 
         return ResponseEntity.ok(dishService.getDish(dishUid));
     }
 
-    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<UUID> addDish(@RequestBody @Valid AddDishRequest request) {
         logger.debug("Adding dish with name: {}", request.getName());
 
         return ResponseEntity.ok(dishService.addDish(request));
     }
 
-    @RequestMapping(method = RequestMethod.PATCH, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PatchMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Void> updateDish(@RequestBody @Valid UpdateDishRequest request) {
         logger.debug("Updating dish with name: {}", request.getName());
 
@@ -68,13 +76,11 @@ public class DishController {
         return ResponseEntity.noContent().build();
     }
 
-    @RequestMapping(path = "/{uuid}", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> deleteDish(@PathVariable UUID uuid) {
-        logger.debug("Deleting dish with uid: {}", uuid);
+    @DeleteMapping(path = "/{dishUid}")
+    public ResponseEntity<Void> deleteDish(@PathVariable UUID dishUid) {
+        logger.debug("Deleting dish with uid: {}", dishUid);
 
-        dishService.deleteDish(uuid);
+        dishService.deleteDish(dishUid);
         return ResponseEntity.noContent().build();
     }
-
-
 }

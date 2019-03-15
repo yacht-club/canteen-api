@@ -1,16 +1,13 @@
 package com.canteen.canteenapi.model.response;
 
 import com.canteen.canteenapi.model.DishCategory;
-import com.canteen.canteenapi.model.entity.CanteenEntity;
 import com.fasterxml.jackson.annotation.JsonGetter;
 
-import java.util.Set;
 import java.util.UUID;
 
 public class DishInfo {
 
     private UUID dishUid;
-    private Set<CanteenEntity> canteens;
     private DishCategory category;
     private String name;
     private Integer price;
@@ -22,7 +19,6 @@ public class DishInfo {
 
     public DishInfo(
             UUID dishUid,
-            Set<CanteenEntity> canteens,
             DishCategory category,
             String name,
             Integer price,
@@ -32,7 +28,6 @@ public class DishInfo {
             Double fats,
             Double carbohydrates) {
         this.dishUid = dishUid;
-        this.canteens = canteens;
         this.category = category;
         this.name = name;
         this.price = price;
@@ -46,11 +41,6 @@ public class DishInfo {
     @JsonGetter("dishUid")
     public UUID getDishUid() {
         return dishUid;
-    }
-
-    @JsonGetter("canteens")
-    public Set<CanteenEntity> getCanteens() {
-        return canteens;
     }
 
     @JsonGetter("category")

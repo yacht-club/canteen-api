@@ -7,50 +7,55 @@ import com.canteen.canteenapi.service.CanteenService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "/api/canteens", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class CanteenController {
+    private static final Logger logger = LoggerFactory.getLogger(CanteenController.class);
 
-    private static final Logger logger = LoggerFactory.getLogger(CanteenController.class.getName());
-
-    private CanteenService canteenService;
+    private final CanteenService canteenService;
 
     @Autowired
     public CanteenController(CanteenService canteenService) {
         this.canteenService = canteenService;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<Page<CanteenInfo>> getAllCanteens(Pageable pageable) {
-        logger.debug("Getting all canteens for page: {} and page size: {} ", pageable.getPageNumber(), pageable.getPageSize());
+    @GetMapping
+    public ResponseEntity<List<CanteenInfo>> getAllCanteens() {
+        logger.debug("Getting all canteens");
 
-        return ResponseEntity.ok(canteenService.getAllCanteens(pageable));
+        return ResponseEntity.ok(canteenService.getAllCanteens());
     }
 
-    @RequestMapping(path = "/{canteenUid}", method = RequestMethod.GET)
+    @GetMapping("/{canteenUid}")
     public ResponseEntity<CanteenInfo> getCanteen(@PathVariable UUID canteenUid) {
         logger.debug("Getting canteen with uid: {} ", canteenUid);
 
         return ResponseEntity.ok(canteenService.getCanteen(canteenUid));
     }
 
-    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<UUID> addCanteen(@RequestBody @Valid AddCanteenRequest request) {
         logger.debug("Adding canteen with name: {}", request.getName());
 
         return ResponseEntity.ok(canteenService.addCanteen(request));
     }
 
-    @RequestMapping(method = RequestMethod.PATCH, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PatchMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Void> updateCanteen(@RequestBody @Valid UpdateCanteenRequest request) {
         logger.debug("Updating canteen with name: {}", request.getName());
 
@@ -58,13 +63,11 @@ public class CanteenController {
         return ResponseEntity.noContent().build();
     }
 
-    @RequestMapping(path = "/{uuid}", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> deleteCanteen(@PathVariable UUID uuid) {
-        logger.debug("Deleting canteen with uid: {}", uuid);
+    @DeleteMapping(path = "/{canteenUid}")
+    public ResponseEntity<Void> deleteCanteen(@PathVariable UUID canteenUid) {
+        logger.debug("Deleting canteen with uid: {}", canteenUid);
 
-        canteenService.deleteCanteen(uuid);
+        canteenService.deleteCanteen(canteenUid);
         return ResponseEntity.noContent().build();
     }
-
-
 }
