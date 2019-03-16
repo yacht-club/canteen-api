@@ -1,0 +1,5 @@
+jclassname = 'org.postgresql.Driver'
+driver_args = ['url',
+               'username',
+               'password']
+jar_path = "path-to/postgresql-x.x.x.jar"
