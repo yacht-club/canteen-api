@@ -1,6 +1,6 @@
 server:
   address: 0.0.0.0
-  port: 8081
+  port: ${PORT:8080}
   servlet.context-path: /canteen-api
   error.whitelabel.enabled: false
 
@@ -11,11 +11,7 @@ spring:
     throw-exception-if-no-handler-found: false
   jpa:
     show-sql: true
-    hibernate:
-      ddl-auto: update
-      naming.implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyHbmImpl
-      naming.physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
-
+    hibernate.ddl-auto: update
     properties:
       hibernate:
         temp:
@@ -23,11 +19,22 @@ spring:
 
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: "jdbc:postgresql://ec2-107-22-162-8.compute-1.amazonaws.com:5432/de0el6b3kcoh9s?sslmode=require&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory"
-    username: djstrfjhyexhwu
-    password: "bedd536fee0b333f7c74cf118711418091c2d6c677be63986659ebd2f10987da"
+    url: "jdbc:postgresql://ec2-54-228-252-67.eu-west-1.compute.amazonaws.com:5432/d1m2hr2knq7q5t"
+    username: gdvlbtpqedskeh
+    password: "d36a4fb530b8c0b72bece798031ae601224f9c43405a86044e90d8ac14b8a1a9"
 
 canteen:
   web:
     allowed-origins:
+      - http://127.0.0.1
+      - https://127.0.0.1
+      - http://127.0.0.1:3000
+      - https://127.0.0.1:3000
+      - http://127.0.0.1:8080
+      - https://127.0.0.1:8080
+      - http://localhost
+      - https://localhost
       - http://localhost:3000
+      - https://localhost:3000
+      - http://localhost:8080
+      - https://localhost:8080
