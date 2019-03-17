@@ -16,6 +16,11 @@ spring:
       naming.implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyHbmImpl
       naming.physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
 
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: false
+
   datasource:
     driver-class-name: org.postgresql.Driver
     url: "jdbc:postgresql://ec2-107-22-162-8.compute-1.amazonaws.com:5432/de0el6b3kcoh9s?sslmode=require&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory"

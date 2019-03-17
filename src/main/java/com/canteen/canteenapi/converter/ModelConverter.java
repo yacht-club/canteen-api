@@ -1,12 +1,15 @@
 package com.canteen.canteenapi.converter;
 
 import com.canteen.canteenapi.model.entity.CanteenEntity;
+import com.canteen.canteenapi.model.entity.DishCategoryEntity;
 import com.canteen.canteenapi.model.entity.DishEntity;
 import com.canteen.canteenapi.model.request.AddCanteenRequest;
 import com.canteen.canteenapi.model.request.AddDishRequest;
+import com.canteen.canteenapi.model.request.DishFilterRequest;
 import com.canteen.canteenapi.model.request.UpdateCanteenRequest;
 import com.canteen.canteenapi.model.request.UpdateDishRequest;
 import com.canteen.canteenapi.model.response.CanteenInfo;
+import com.canteen.canteenapi.model.response.DishCategoryInfo;
 import com.canteen.canteenapi.model.response.DishInfo;
 
 public class ModelConverter {
@@ -72,6 +75,24 @@ public class ModelConverter {
                 entity.getCalories(),
                 entity.getProteins(),
                 entity.getFats(),
-                entity.getCarbohydrates());
+                entity.getCarbohydrates(),
+                entity.getCanteen().getCanteenUid()
+        );
+    }
+
+    public static DishEntity convert(DishFilterRequest dishFilterRequest) {
+        CanteenEntity canteenEntity = new CanteenEntity()
+                .setCanteenUid(dishFilterRequest.getCanteenUid());
+
+        return new DishEntity()
+                .setCategory(dishFilterRequest.getCategory())
+                .setCanteen(canteenEntity);
+    }
+
+    public static DishCategoryInfo convert(DishCategoryEntity dishCategoryEntity) {
+        return new DishCategoryInfo(
+                dishCategoryEntity.getCategory(),
+                dishCategoryEntity.getDescription()
+        );
     }
 }

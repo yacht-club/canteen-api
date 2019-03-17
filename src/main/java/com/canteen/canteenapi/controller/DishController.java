@@ -2,7 +2,9 @@ package com.canteen.canteenapi.controller;
 
 import com.canteen.canteenapi.model.DishCategory;
 import com.canteen.canteenapi.model.request.AddDishRequest;
+import com.canteen.canteenapi.model.request.DishFilterRequest;
 import com.canteen.canteenapi.model.request.UpdateDishRequest;
+import com.canteen.canteenapi.model.response.DishCategoryInfo;
 import com.canteen.canteenapi.model.response.DishInfo;
 import com.canteen.canteenapi.service.DishService;
 import org.slf4j.Logger;
@@ -32,11 +34,11 @@ public class DishController {
     }
 
     @GetMapping("/categories")
-    public ResponseEntity<List<DishCategory>> getCategories() {
+    public ResponseEntity<List<DishCategoryInfo>> getCategories() {
         logger.debug("Getting all categories");
 
         // TODO implement
-        return ResponseEntity.ok(new ArrayList<>());
+        return ResponseEntity.ok(dishService.getAllCategories());
     }
 
     @GetMapping("/categories/{category}")
@@ -82,5 +84,13 @@ public class DishController {
 
         dishService.deleteDish(dishUid);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<Page<DishInfo>> filterDish(Pageable pageable,
+                                                     @RequestBody @Valid DishFilterRequest dishFilterRequest) {
+        logger.debug("Getting all dishes with filter: {}", dishFilterRequest);
+
+        return ResponseEntity.ok(dishService.getAllDishes(pageable, dishFilterRequest));
     }
 }

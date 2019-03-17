@@ -5,19 +5,25 @@ import com.canteen.canteenapi.exception.DishNotFoundException;
 import com.canteen.canteenapi.model.DishCategory;
 import com.canteen.canteenapi.model.entity.DishEntity;
 import com.canteen.canteenapi.model.request.AddDishRequest;
+import com.canteen.canteenapi.model.request.DishFilterRequest;
 import com.canteen.canteenapi.model.request.UpdateDishRequest;
+import com.canteen.canteenapi.model.response.DishCategoryInfo;
 import com.canteen.canteenapi.model.response.DishInfo;
+import com.canteen.canteenapi.repository.DishCategoryRepository;
 import com.canteen.canteenapi.repository.DishRepository;
 import com.canteen.canteenapi.service.DishService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -26,15 +32,28 @@ public class DishServiceImpl implements DishService {
     private final static Logger logger = LoggerFactory.getLogger(DishServiceImpl.class);
 
     private final DishRepository dishRepository;
+    private final DishCategoryRepository dishCategoryRepository;
 
     @Autowired
-    public DishServiceImpl(DishRepository dishRepository) {
+    public DishServiceImpl(DishRepository dishRepository, DishCategoryRepository dishCategoryRepository) {
         this.dishRepository = dishRepository;
+        this.dishCategoryRepository = dishCategoryRepository;
     }
 
     @Override
     public Page<DishInfo> getAllDishes(Pageable pageable) {
         return new PageImpl<>(dishRepository.findAll(pageable)
+                .stream()
+                .map(ModelConverter::convert)
+                .collect(Collectors.toList()));
+    }
+
+    @Override
+    public Page<DishInfo> getAllDishes(Pageable pageable, DishFilterRequest dishFilterRequest) {
+        ExampleMatcher matcher = ExampleMatcher.matching().withIgnoreNullValues();
+        Example<DishEntity> example = Example.of(ModelConverter.convert(dishFilterRequest), matcher);
+
+        return new PageImpl<>(dishRepository.findAll(example, pageable)
                 .stream()
                 .map(ModelConverter::convert)
                 .collect(Collectors.toList()));
@@ -79,5 +98,12 @@ public class DishServiceImpl implements DishService {
     @Override
     public void deleteDish(UUID dishUid) {
         dishRepository.deleteByDishUid(dishUid);
+    }
+
+    public List<DishCategoryInfo> getAllCategories() {
+        return dishCategoryRepository.findAll()
+                .stream()
+                .map(ModelConverter::convert)
+                .collect(Collectors.toList());
     }
 }

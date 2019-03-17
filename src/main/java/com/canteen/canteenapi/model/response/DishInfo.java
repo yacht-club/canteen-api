@@ -16,6 +16,7 @@ public class DishInfo {
     private Double proteins;
     private Double fats;
     private Double carbohydrates;
+    private UUID canteenUid;
 
     public DishInfo(
             UUID dishUid,
@@ -26,7 +27,8 @@ public class DishInfo {
             Double calories,
             Double proteins,
             Double fats,
-            Double carbohydrates) {
+            Double carbohydrates,
+            UUID canteenUid) {
         this.dishUid = dishUid;
         this.category = category;
         this.name = name;
@@ -36,6 +38,7 @@ public class DishInfo {
         this.proteins = proteins;
         this.fats = fats;
         this.carbohydrates = carbohydrates;
+        this.canteenUid = canteenUid;
     }
 
     @JsonGetter("dishUid")
@@ -81,5 +84,10 @@ public class DishInfo {
     @JsonGetter("carbohydrates")
     public Double getCarbohydrates() {
         return carbohydrates;
+    }
+
+    @JsonGetter("canteenUid")
+    public UUID getCanteenUid() {
+        return canteenUid;
     }
 }

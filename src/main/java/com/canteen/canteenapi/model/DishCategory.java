@@ -4,5 +4,8 @@ public enum DishCategory {
     SALAD,
     SOUP,
     DRINK,
-    OTHER
+    OTHER,
+    MAINCOURSE,
+    DESSERT,
+    GARNISH
 }
