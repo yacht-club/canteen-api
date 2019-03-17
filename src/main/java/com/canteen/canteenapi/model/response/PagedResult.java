@@ -1,4 +1,4 @@
-package com.canteen.canteenapi.common;
+package com.canteen.canteenapi.model.response;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 

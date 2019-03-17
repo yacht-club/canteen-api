@@ -9,5 +9,4 @@ public class CanteenApiApplication {
     public static void main(String[] args) {
         SpringApplication.run(CanteenApiApplication.class, args);
     }
-
 }

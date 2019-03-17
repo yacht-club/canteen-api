@@ -21,9 +21,11 @@ public class CanteenEntity {
     private Integer id;
     private UUID canteenUid = UUID.randomUUID();
     private String name;
+    private String building;
     private String location;
     private Instant workFromMillis;
     private Instant workTillMillis;
+    private String imageUrl;
 
     public CanteenEntity() {
     }
@@ -61,6 +63,16 @@ public class CanteenEntity {
         return this;
     }
 
+    @Column(name = "building", nullable = false)
+    public String getBuilding() {
+        return building;
+    }
+
+    public CanteenEntity setBuilding(String building) {
+        this.building = building;
+        return this;
+    }
+
     @Column(name = "location", nullable = false)
     public String getLocation() {
         return location;
@@ -91,12 +103,24 @@ public class CanteenEntity {
         return this;
     }
 
+    @Column(name = "image_url")
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public CanteenEntity setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+        return this;
+    }
+
     public CanteenEntity copy(CanteenEntity entity) {
         this.canteenUid = entity.getCanteenUid();
-        this.location = entity.getLocation();
         this.name = entity.getName();
+        this.building = entity.getBuilding();
+        this.location = entity.getLocation();
         this.workFromMillis = entity.getWorkFromMillis();
         this.workTillMillis = entity.getWorkTillMillis();
+        this.imageUrl = entity.getImageUrl();
         return this;
     }
 

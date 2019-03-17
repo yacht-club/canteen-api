@@ -9,21 +9,27 @@ public class CanteenInfo {
 
     private UUID canteenUid;
     private String name;
+    private String building;
     private String location;
     private Instant workFromMillis;
     private Instant workTillMillis;
+    private String imageUrl;
 
     public CanteenInfo(
             UUID canteenUid,
             String name,
+            String building,
             String location,
             Instant workFromMillis,
-            Instant workTillMillis) {
+            Instant workTillMillis,
+            String imageUrl) {
         this.canteenUid = canteenUid;
         this.name = name;
+        this.building = building;
         this.location = location;
         this.workFromMillis = workFromMillis;
         this.workTillMillis = workTillMillis;
+        this.imageUrl = imageUrl;
     }
 
     @JsonGetter("canteenUid")
@@ -34,6 +40,11 @@ public class CanteenInfo {
     @JsonGetter("name")
     public String getName() {
         return name;
+    }
+
+    @JsonGetter("building")
+    public String getBuilding() {
+        return building;
     }
 
     @JsonGetter("location")
@@ -49,5 +60,10 @@ public class CanteenInfo {
     @JsonGetter("workTillMillis")
     public Instant getWorkTillMillis() {
         return workTillMillis;
+    }
+
+    @JsonGetter("imageUrl")
+    public String getImageUrl() {
+        return imageUrl;
     }
 }

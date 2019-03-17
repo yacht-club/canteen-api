@@ -60,9 +60,11 @@ public class ModelConverter {
         return new CanteenInfo(
                 entity.getCanteenUid(),
                 entity.getName(),
+                entity.getBuilding(),
                 entity.getLocation(),
                 entity.getWorkFromMillis(),
-                entity.getWorkTillMillis());
+                entity.getWorkTillMillis(),
+                entity.getImageUrl());
     }
 
     public static DishInfo convert(DishEntity entity) {
@@ -76,8 +78,7 @@ public class ModelConverter {
                 entity.getProteins(),
                 entity.getFats(),
                 entity.getCarbohydrates(),
-                entity.getCanteen().getCanteenUid()
-        );
+                entity.getCanteen().getCanteenUid());
     }
 
     public static DishEntity convert(DishFilterRequest dishFilterRequest) {
@@ -92,7 +93,6 @@ public class ModelConverter {
     public static DishCategoryInfo convert(DishCategoryEntity dishCategoryEntity) {
         return new DishCategoryInfo(
                 dishCategoryEntity.getCategory(),
-                dishCategoryEntity.getDescription()
-        );
+                dishCategoryEntity.getDescription());
     }
 }
