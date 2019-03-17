@@ -9,8 +9,10 @@ if __name__ == "__main__":
     conn = jaydebeapi.connect(jclassname=jclassname, driver_args=driver_args, jars=jar_path)
     curs = conn.cursor()
 
+    # clear table before loading
+    curs.execute("delete from canteen.dishes")
+
     for dish in data:
-        print(dish)
         curs.execute("insert into canteen.dishes"
                      " (calories, carbohydrates, fats, proteins, weight, price, ext_id, name, canteen_id, category)"
                      " values ({calories}, {carbohydrates}, {fats}, {proteins},"
