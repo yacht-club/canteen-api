@@ -14,11 +14,9 @@ import java.util.UUID;
 
 public interface DishService {
 
-    Page<DishInfo> getAllDishes(Pageable pageable);
+    List<DishInfo> getAllDishes();
 
-    Page<DishInfo> getAllDishes(Pageable pageable, DishFilterRequest dishFilterRequest);
-
-    Page<DishInfo> getAllDishesByCategory(Pageable pageable, DishCategory category);
+    List<DishInfo> getAllDishes(DishFilterRequest dishFilterRequest);
 
     DishInfo getDish(UUID dishUid);
 

@@ -41,30 +41,22 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
-    public Page<DishInfo> getAllDishes(Pageable pageable) {
-        return new PageImpl<>(dishRepository.findAll(pageable)
+    public List<DishInfo> getAllDishes() {
+        return dishRepository.findAll()
                 .stream()
                 .map(ModelConverter::convert)
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Page<DishInfo> getAllDishes(Pageable pageable, DishFilterRequest dishFilterRequest) {
+    public List<DishInfo> getAllDishes(DishFilterRequest dishFilterRequest) {
         ExampleMatcher matcher = ExampleMatcher.matching().withIgnoreNullValues();
         Example<DishEntity> example = Example.of(ModelConverter.convert(dishFilterRequest), matcher);
 
-        return new PageImpl<>(dishRepository.findAll(example, pageable)
+        return dishRepository.findAll(example)
                 .stream()
                 .map(ModelConverter::convert)
-                .collect(Collectors.toList()));
-    }
-
-    @Override
-    public Page<DishInfo> getAllDishesByCategory(Pageable pageable, DishCategory category) {
-        return new PageImpl<>(dishRepository.findAllByCategory(pageable, category)
-                .stream()
-                .map(ModelConverter::convert)
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList());
     }
 
     @Override

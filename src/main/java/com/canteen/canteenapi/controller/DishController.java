@@ -41,19 +41,11 @@ public class DishController {
         return ResponseEntity.ok(dishService.getAllCategories());
     }
 
-    @GetMapping("/categories/{category}")
-    public ResponseEntity<Page<DishInfo>> getAllDishesByCategory(@PathVariable DishCategory category, Pageable pageable) {
-        logger.debug("Getting all dishes for page: {} and page size: {} and category: {}",
-                pageable.getPageNumber(), pageable.getPageSize(), category);
-
-        return ResponseEntity.ok(dishService.getAllDishesByCategory(pageable, category));
-    }
-
     @GetMapping
-    public ResponseEntity<Page<DishInfo>> getAllDishes(Pageable pageable) {
-        logger.debug("Getting all dishes for page: {} and page size: {} ", pageable.getPageNumber(), pageable.getPageSize());
+    public ResponseEntity<List<DishInfo>> getAllDishes() {
+        logger.debug("Getting all dishes");
 
-        return ResponseEntity.ok(dishService.getAllDishes(pageable));
+        return ResponseEntity.ok(dishService.getAllDishes());
     }
 
     @GetMapping("/{dishUid}")
@@ -87,10 +79,9 @@ public class DishController {
     }
 
     @PostMapping("/search")
-    public ResponseEntity<Page<DishInfo>> filterDish(Pageable pageable,
-                                                     @RequestBody @Valid DishFilterRequest dishFilterRequest) {
+    public ResponseEntity<List<DishInfo>> filterDish(@RequestBody @Valid DishFilterRequest dishFilterRequest) {
         logger.debug("Getting all dishes with filter: {}", dishFilterRequest);
 
-        return ResponseEntity.ok(dishService.getAllDishes(pageable, dishFilterRequest));
+        return ResponseEntity.ok(dishService.getAllDishes(dishFilterRequest));
     }
 }
