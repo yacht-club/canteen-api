@@ -21,6 +21,9 @@ public class DishCategoryEntity {
     @Column(name = "description", nullable = false)
     private String description;
 
+    @Column(name = "order", nullable = false)
+    private int order;
+
     public DishCategoryEntity() {
     }
 
@@ -28,15 +31,26 @@ public class DishCategoryEntity {
         return category;
     }
 
-    public void setCategory(DishCategory category) {
+    public DishCategoryEntity setCategory(DishCategory category) {
         this.category = category;
+        return this;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public DishCategoryEntity setDescription(String description) {
         this.description = description;
+        return this;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public DishCategoryEntity setOrder(int order) {
+        this.order = order;
+        return this;
     }
 }

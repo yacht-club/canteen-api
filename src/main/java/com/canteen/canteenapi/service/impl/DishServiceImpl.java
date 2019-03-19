@@ -2,7 +2,7 @@ package com.canteen.canteenapi.service.impl;
 
 import com.canteen.canteenapi.converter.ModelConverter;
 import com.canteen.canteenapi.exception.DishNotFoundException;
-import com.canteen.canteenapi.model.DishCategory;
+import com.canteen.canteenapi.model.entity.DishCategoryEntity;
 import com.canteen.canteenapi.model.entity.DishEntity;
 import com.canteen.canteenapi.model.request.AddDishRequest;
 import com.canteen.canteenapi.model.request.DishFilterRequest;
@@ -17,12 +17,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -95,6 +93,7 @@ public class DishServiceImpl implements DishService {
     public List<DishCategoryInfo> getAllCategories() {
         return dishCategoryRepository.findAll()
                 .stream()
+                .sorted(Comparator.comparingInt(DishCategoryEntity::getOrder))
                 .map(ModelConverter::convert)
                 .collect(Collectors.toList());
     }
