@@ -21,7 +21,7 @@
 * [Java 8](https://docs.oracle.com/javase/8/docs/) – Язык разработки бэк-энд части
 * [Maven](https://maven.apache.org/) – Система для управления зависимостями
 * [Spring](https://spring.io/docs) – Используемый для бэк-энд части фреймворк (Data, Boot)
-* [AWS PostgreSQL] (https://aws.amazon.com/ru/rds/postgresql/) - Используемая БД
+* [AWS PostgreSQL](https://aws.amazon.com/ru/rds/postgresql/) - Используемая база данных
 
 ## Авторы
 
